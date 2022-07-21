@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CustomerService} from "../services/customer.service";
-import {catchError, Observable, throwError} from "rxjs";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {Customer} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-customers',
@@ -16,12 +17,12 @@ export class CustomersComponent implements OnInit {
   errorMessage!:string;
   searchformGroup!:FormGroup;
 
-  constructor(private customerService:CustomerService, private fb:FormBuilder) { }
+  constructor(private customerService:CustomerService, private fb:FormBuilder,private router : Router) { }
 
   ngOnInit(): void {
     // search form
     this.searchformGroup=this.fb.group({
-      keyword:this.fb.control(null)
+      keyword:this.fb.control("")
     });
     this.handleSearchCustomers();
   }
@@ -36,8 +37,7 @@ export class CustomersComponent implements OnInit {
       );
   }
   handleDeleteCustomer(c: Customer) {
-    let conf = confirm("Are you sure?");
-    if(!conf) return;
+
     this.customerService.deleteCustomer(c.id).subscribe({
       next : (resp) => {
         this.customers=this.customers.pipe(
@@ -53,6 +53,10 @@ export class CustomersComponent implements OnInit {
       }
     })
   }
+  handleCustomerAccounts(customer: Customer) {
+    this.router.navigateByUrl("/customer-accounts/"+customer.id,{state :customer});
+  }
+
 
 
 }

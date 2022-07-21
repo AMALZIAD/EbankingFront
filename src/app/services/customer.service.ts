@@ -21,6 +21,6 @@ export class CustomerService {
     return this.http.post<Customer>(environment.bankendhost+"/customers",customer);
   }
   public deleteCustomer(id: number){
-   this.http.delete<Customer>(environment.bankendhost+"/customers"+id);
+    return this.http.delete(environment.bankendhost+"/customers/"+id);
   }
 }
