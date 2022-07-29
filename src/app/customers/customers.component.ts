@@ -5,6 +5,7 @@ import {catchError, map, Observable, throwError} from "rxjs";
 import {Customer} from "../model/customer.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {Router} from "@angular/router";
+import {AuthentificationService} from "../services/authentification.service";
 
 @Component({
   selector: 'app-customers',
@@ -17,7 +18,8 @@ export class CustomersComponent implements OnInit {
   errorMessage!:string;
   searchformGroup!:FormGroup;
 
-  constructor(private customerService:CustomerService, private fb:FormBuilder,private router : Router) { }
+  constructor(private customerService:CustomerService, private fb:FormBuilder,
+              public authService: AuthentificationService , private router : Router) { }
 
   ngOnInit(): void {
     // search form
